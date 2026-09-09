@@ -284,18 +284,17 @@ LLM은 질문 방향을 제안했고, 사람은 실제 데이터의 최신일과
 수업에서 제공한 시작 코드를 기준으로 기본 라이브러리와 CSV 경로를 확인함.
 
 ```python
-from pathlib import Path
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
 import seaborn as sns
 
-DATA_DIR = Path("../data/raw")
-sns.set_theme(style="whitegrid")
+BASE = "https://raw.githubusercontent.com/GilbertMoon/llm-data-analysis-course/main/data/raw/"
+customers = pd.read_csv(BASE + "customers.csv")
 
-customers = pd.read_csv(DATA_DIR / "customers.csv")
-customers.shape
-customers.columns.tolist()
+print("IMPORT_OK")
+print("customers.shape =", customers.shape)
+print("columns =", customers.columns.tolist())
 ```
 
 ### 실행 결과
