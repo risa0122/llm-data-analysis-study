@@ -51,11 +51,11 @@ https://github.com/risa0122/llm-data-analysis-study/blob/main/chapter01/chapter0
 
 ### 업무적 의미
 
-월별 재구매 고객 비율이 실제로 낮아졌는지 확인하면 재구매 유도 프로모션의 필요성과 시점을 판단할 수 있음.
+월별 재구매 고객 비율이 낮아진 시점을 찾으면 원인 분석과 재구매 방안 검토의 우선순위를 정할 수 있음.
 
 ### 한계 및 추가 확인
 
-`customer_id`가 실제 고객 한 명을 일관되게 식별하는지와 `refunded` 주문을 재구매 이력에서 제외하는 기준은 실제 업무 적용 전에 확인 필요.
+데이터가 2025-07-09부터 시작하므로 그 이전 구매 이력은 알 수 없음. 따라서 초반 월의 재구매 고객 비율은 실제보다 낮게 계산될 수 있으며, `customer_id`의 일관성과 환불 주문 처리 기준도 확인 필요.
 
 ### 실행 증거
 
@@ -111,7 +111,7 @@ customers.csv
 
 ### 나의 해석과 판단
 
-현재 질문은 `orders.csv`만으로 1차 분석 가능하다고 판단함. 원인 분석까지 진행할 경우 `customers.csv`와 `order_items.csv`를 추가로 연결해야 함.
+현재 질문은 `orders.csv`만으로 1차 분석 가능하다고 판단함. 고객 특성은 `customers.csv`, 상품·카테고리는 `order_items.csv`와 `products.csv`를 연결해야 함.
 
 ### 업무적 의미
 
@@ -150,13 +150,13 @@ customers.csv
 
 ### 실행 결과: LLM 응답 요약
 
-| 번호 | 제안 질문 | 필요한 파일 |
-|---|---|---|
-| 1 | 월별 재구매 고객 비율은 어떻게 변하는가? | `orders.csv` |
-| 2 | 상품 카테고리별 매출과 주문금액은 어떻게 다른가? | `orders.csv`, `order_items.csv`, `products.csv` |
-| 3 | 결제수단별 취소율은 어떻게 다른가? | `orders.csv` |
-| 4 | 가입 후 첫 구매까지 걸린 기간은 어느 정도인가? | `customers.csv`, `orders.csv` |
-| 5 | 연령대별 평균 구매금액은 어떻게 다른가? | `customers.csv`, `orders.csv`, `order_items.csv` |
+| 번호 | 제안 질문 | 필요한 파일 | 주요 컬럼 후보 |
+|---|---|---|---|
+| 1 | 월별 재구매 고객 비율은 어떻게 변하는가? | `orders.csv` | `order_id`, `customer_id`, `order_date`, `order_status` |
+| 2 | 상품 카테고리별 매출과 주문금액은 어떻게 다른가? | `orders.csv`, `order_items.csv`, `products.csv` | `order_status`, `order_id`, `product_id`, `quantity`, `unit_price`, `category` |
+| 3 | 결제수단별 취소율은 어떻게 다른가? | `orders.csv` | `payment_method`, `order_status` |
+| 4 | 가입 후 첫 구매까지 걸린 기간은 어느 정도인가? | `customers.csv`, `orders.csv` | `customer_id`, `signup_date`, `order_date` |
+| 5 | 연령대별 평균 구매금액은 어떻게 다른가? | `customers.csv`, `orders.csv`, `order_items.csv` | `age`, `customer_id`, `order_id`, `quantity`, `unit_price` |
 
 ### 결과 관찰
 
@@ -234,7 +234,7 @@ LLM 제안을 정답으로 사용하지 않고 데이터 구조와 업무 목적
 | 항목 | 기록 |
 |---|---|
 | 목적 | 데이터 구조로 분석 가능한 질문 후보 찾기 |
-| 입력 정보 | 파일명과 역할, 분석 목적, 개인정보 제외 조건 |
+| 입력 정보 | 파일명과 역할, 분석 목적, 질문 수, 원인 단정 금지·개인정보 미사용 조건 |
 | LLM 응답 | 재구매율, 카테고리 매출, 결제수단별 취소율 등 질문 5개 |
 | 실제 반영 | 재구매 고객 비율 질문을 선택 |
 | 사람이 검증한 내용 | 필요한 컬럼 존재 여부, 업무 목적과의 연결, 계산 기준의 명확성 |
