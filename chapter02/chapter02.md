@@ -261,9 +261,9 @@ macOS 기본 python3은 Python 3.9.6으로 남아 있으므로, 이 프로젝트
 
 ## 최종 제출 체크
 
-- [ ] STEP 6 Evidence 이미지를 추가함
+- [x] STEP 6 Evidence 이미지를 추가함
 - [x] 실행 결과와 관찰·판단을 작성함
 - [x] Secret/개인정보가 포함되지 않도록 확인함
-- [ ] GitHub에서 모든 Evidence 이미지가 정상 표시됨
+- [x] GitHub에서 모든 Evidence 이미지가 정상 표시됨
 - [x] 개인 저장소에 chapter02/chapter02.md를 업로드함
 - [ ] 저장소 URL이 아니라 최종 파일 URL을 LMS에 제출함
