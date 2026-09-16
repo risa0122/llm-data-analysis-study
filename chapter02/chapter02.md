@@ -164,6 +164,7 @@ Notebook, pandas 패키지, 데이터 경로, customers.csv 파일이 모두 정
 ### 오류 메시지
 
 ~~~text
+fatal: not a git repository (or any of the parent directories): .git
 python: command not found
 source: no such file or directory: .venv/bin/activate
 ERROR: Could not find a version that satisfies the requirement pandas==3.0.5
@@ -260,7 +261,7 @@ macOS 기본 python3은 Python 3.9.6으로 남아 있으므로, 이 프로젝트
 
 ## 최종 제출 체크
 
-- [ ] STEP 5·6 Evidence 이미지를 추가함
+- [ ] STEP 6 Evidence 이미지를 추가함
 - [x] 실행 결과와 관찰·판단을 작성함
 - [x] Secret/개인정보가 포함되지 않도록 확인함
 - [ ] GitHub에서 모든 Evidence 이미지가 정상 표시됨
