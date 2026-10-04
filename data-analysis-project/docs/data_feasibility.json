@@ -1,0 +1,181 @@
+{
+  "python_version": "3.12.14",
+  "pandas_version": "3.0.5",
+  "rows": 228711,
+  "columns": 42,
+  "column_names": [
+    "ID",
+    "ID_policy",
+    "ID_insured",
+    "period",
+    "date_effect_insured",
+    "date_lapse_insured",
+    "date_effect_policy",
+    "date_lapse_policy",
+    "year_effect_insured",
+    "year_lapse_insured",
+    "year_effect_policy",
+    "year_lapse_policy",
+    "exposure_time",
+    "lapse",
+    "seniority_insured",
+    "seniority_policy",
+    "type_policy",
+    "type_policy_dg",
+    "type_product",
+    "reimbursement",
+    "new_business",
+    "distribution_channel",
+    "gender",
+    "age",
+    "premium",
+    "cost_claims_year",
+    "n_medical_services",
+    "n_insured_pc",
+    "n_insured_mun",
+    "n_insured_prov",
+    "IICIMUN",
+    "IICIPROV",
+    "C_H",
+    "C_GI",
+    "C_II",
+    "C_IE_P",
+    "C_IE_S",
+    "C_IE_T",
+    "C_GE_P",
+    "C_GE_S",
+    "C_GE_T",
+    "C_C"
+  ],
+  "missing_values": {
+    "ID": 0,
+    "ID_policy": 0,
+    "ID_insured": 0,
+    "period": 0,
+    "date_effect_insured": 0,
+    "date_lapse_insured": 167181,
+    "date_effect_policy": 0,
+    "date_lapse_policy": 174568,
+    "year_effect_insured": 0,
+    "year_lapse_insured": 167181,
+    "year_effect_policy": 0,
+    "year_lapse_policy": 174568,
+    "exposure_time": 0,
+    "lapse": 0,
+    "seniority_insured": 0,
+    "seniority_policy": 0,
+    "type_policy": 0,
+    "type_policy_dg": 0,
+    "type_product": 0,
+    "reimbursement": 0,
+    "new_business": 0,
+    "distribution_channel": 0,
+    "gender": 0,
+    "age": 0,
+    "premium": 0,
+    "cost_claims_year": 0,
+    "n_medical_services": 0,
+    "n_insured_pc": 0,
+    "n_insured_mun": 0,
+    "n_insured_prov": 0,
+    "IICIMUN": 10886,
+    "IICIPROV": 5701,
+    "C_H": 10886,
+    "C_GI": 13213,
+    "C_II": 13213,
+    "C_IE_P": 13213,
+    "C_IE_S": 13213,
+    "C_IE_T": 13213,
+    "C_GE_P": 13213,
+    "C_GE_S": 13213,
+    "C_GE_T": 13213,
+    "C_C": 10556
+  },
+  "exact_duplicate_rows": 0,
+  "categorical_counts": {
+    "year_lapse_insured": {
+      "nan": 167181,
+      "2019.0": 24572,
+      "2018.0": 21986,
+      "2017.0": 14972
+    },
+    "year_lapse_policy": {
+      "nan": 174568,
+      "2019.0": 21473,
+      "2018.0": 19661,
+      "2017.0": 13009
+    },
+    "lapse": {
+      "2": 187271,
+      "3": 25092,
+      "1": 16348
+    },
+    "type_product": {
+      "S": 175415,
+      "P": 40413,
+      "D": 9866,
+      "I": 3017
+    },
+    "distribution_channel": {
+      "I": 144028,
+      "A": 82644,
+      "D": 2039
+    }
+  },
+  "identifier_cardinality": {
+    "ID": 100453,
+    "ID_policy": 45162,
+    "ID_insured": 1467
+  },
+  "duplicate_id_period": 0,
+  "year_counts": {
+    "2017": 78459,
+    "2018": 73970,
+    "2019": 76282
+  },
+  "year_lapse_counts": {
+    "2017": {
+      "1": 5605,
+      "2": 63487,
+      "3": 9367
+    },
+    "2018": {
+      "1": 4993,
+      "2": 59833,
+      "3": 9144
+    },
+    "2019": {
+      "1": 5750,
+      "2": 63951,
+      "3": 6581
+    }
+  },
+  "next_year_cohorts": [
+    {
+      "feature_year": 2017,
+      "outcome_year": 2018,
+      "active_at_origin": 63487,
+      "matched_next_year": 63486,
+      "unknown_next_year": 1,
+      "next_year_lapse_counts": {
+        "1": 2030,
+        "2": 53562,
+        "3": 7894
+      },
+      "candidate_lapse_1_or_3": 9924
+    },
+    {
+      "feature_year": 2018,
+      "outcome_year": 2019,
+      "active_at_origin": 59833,
+      "matched_next_year": 59831,
+      "unknown_next_year": 2,
+      "next_year_lapse_counts": {
+        "1": 2012,
+        "2": 53085,
+        "3": 4734
+      },
+      "candidate_lapse_1_or_3": 6746
+    }
+  ]
+}

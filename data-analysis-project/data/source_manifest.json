@@ -1,0 +1,24 @@
+{
+  "dataset": "Dataset of health insurance portfolio",
+  "version": 4,
+  "doi": "10.17632/386vmj2tbk.4",
+  "source": "https://data.mendeley.com/datasets/386vmj2tbk/4",
+  "license": "CC BY 4.0",
+  "checked_at_utc": "2026-10-04T05:22:07.250343+00:00",
+  "files": [
+    {
+      "filename": "health_insurance_portfolio.xlsx",
+      "source_filename": "Dataset of health insurance portfolio.xlsx",
+      "url": "https://data.mendeley.com/public-files/datasets/386vmj2tbk/files/621bbef0-6ef0-4683-9427-394c2ca4fe7c/file_downloaded",
+      "sha256": "2bd9ffced5198a48a2d9fc1a19ad748b20c7c038896ba627a147412cec03836b",
+      "bytes": 45451594
+    },
+    {
+      "filename": "variable_dictionary.xlsx",
+      "source_filename": "Descriptive of the variables.xlsx",
+      "url": "https://data.mendeley.com/public-files/datasets/386vmj2tbk/files/2c56dbe3-44da-4d7c-bfbe-f7a1dd05eded/file_downloaded",
+      "sha256": "b8a9386ed7774353a8360e466e48d1cfa040ef3512c6e91a31f158a33cc06cb4",
+      "bytes": 17405
+    }
+  ]
+}
