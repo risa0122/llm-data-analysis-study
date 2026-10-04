@@ -8,3 +8,6 @@ __pycache__/
 .codex-finalizer/
 node_modules/
 *.pyc
+.local-presentation/
+01_proposal/01_presentation.pptx
+01_proposal/presentation_notes.md

@@ -1,36 +1,31 @@
-# 보험계약 이탈 위험 분석과 유지관리 우선순위 탐색
+# 건강보험 계약 이탈 특성 분석과 유지관리 우선순위 탐색
 
-생명보험 해지·실효 방지 업무 및 논문 주제와 연결하기 위한 공개 건강보험 데이터 예비 분석 프로젝트.
+공개 건강보험 데이터를 활용해 계약 특성과 다음 해 이탈의 관계를 분석하고, 유지관리 대상 선정 기준의 유용성을 검증하는 개인 프로젝트다.
 
-## 현재 상태
+## 현재 프로젝트 진행 상태
 
-2026-10-04: 1차 기획 작성 및 공개 원자료 확보·기초 구조 확인 완료. 본 분석·모델 학습은 아직 수행하지 않았다. 스페인 건강보험 자료이며 국내 생명보험 결과로 일반화하지 않는다.
+2026년 10월 4일 기준, 1차 기획서 작성과 원자료 확보·기초 구조 확인을 마쳤다. 전처리 기준 확정과 본 분석·모델링은 이후 단계에서 수행한다.
 
-- [1차 제출 파일](01_proposal/01_proposal.md)
-- [1차 발표 자료](01_proposal/01_presentation.pptx)
-- [발표 대본·예상 질문·오늘 할 일](01_proposal/presentation_notes.md)
-- [확보·구조 점검 결과](docs/data_feasibility.json)
-- [출처와 파일 체크섬](data/source_manifest.json)
-- [AI 활용·검증 기록](docs/ai_usage.md)
+## 단계별 산출물
 
-## 구성
+- [1차 — 데이터분석 프로젝트 기획](01_proposal/01_proposal.md)
+- 2차 — 데이터 확보·전처리·EDA: 진행 예정
+- 3차 — 본 분석·모델링·검증: 진행 예정
+- 4차 — 프로젝트 최종 완료: 진행 예정
 
-```text
-data-analysis-project/
-├─ README.md
-├─ requirements.txt
-├─ 01_proposal/             # 제안서, 발표 자료, 발표 메모
-├─ 02_data-eda/             # 다음 단계에서 작성
-├─ 03_analysis-modeling/    # 다음 단계에서 작성
-├─ 04_final/               # 다음 단계에서 작성
-├─ data/                   # 출처 기록; 원본은 로컬에만 보관
-├─ app/                    # 최종 결과 전달용, 선택 사항
-└─ docs/                   # 데이터 확보 코드·검증·AI 활용 기록
-```
+## 데이터 출처 및 수집 방법
 
-## 데이터 확보 결과 재현
+Lledó, J.; Espinosa Adamez, P.; Perez Gimenez, V. (2025), *Dataset of health insurance portfolio*, Mendeley Data, V4, [DOI: 10.17632/386vmj2tbk.4](https://doi.org/10.17632/386vmj2tbk.4), CC BY 4.0.
 
-Python 3.12 환경을 권장한다. 저장소의 `data-analysis-project` 폴더에서 다음 명령을 실행한다. 개인 식별자나 원본 행은 출력하지 않으며, 데이터 다운로드·해시 검증·집계 점검만 수행한다.
+원자료와 변수 설명서를 공개 다운로드로 확보했다. 스페인 건강보험사의 2017~2019년 자료이며, 원본은 로컬에 보관한다.
+
+- [데이터 구조 및 품질 확인 결과](docs/data_feasibility.json)
+- [수집 파일 URL 및 체크섬](data/source_manifest.json)
+- [생성형 AI 활용 및 검증 기록](docs/ai_usage.md)
+
+## 실행 및 재현 방법
+
+Python 3.12 환경을 권장한다. 저장소의 `data-analysis-project` 폴더에서 실행한다.
 
 ```bash
 python3 -m venv .venv
@@ -39,16 +34,8 @@ python -m pip install -r requirements.txt
 python docs/check_source_data.py
 ```
 
-최초 실행에는 네트워크 연결이 필요하며 원본 약 45.5MB와 변수 설명서를 다운로드한다. `data/raw/`와 가상환경은 Git에서 제외한다. 결과는 `docs/data_feasibility.json`에 저장된다. 원본이 바뀌면 기존 버전과 섞지 않고 버전·체크섬을 확인한다.
+최초 실행 시 원자료 약 45.5MB와 변수 설명서를 다운로드한다. 파일 무결성·행과 열 수·결측·중복·연도 간 연결 결과는 `docs/data_feasibility.json`에 저장된다. 원본 행은 출력하지 않는다.
 
-## 제출
+## 분석의 한계
 
-LMS에는 아래 **제안서 파일 URL 하나**를 제출한다. 발표 파일은 보조 자료다.
-
-https://github.com/risa0122/llm-data-analysis-study/blob/main/data-analysis-project/01_proposal/01_proposal.md
-
-공식 1차 자료 제출일은 10월 5일이며 LMS의 정확한 마감 시각은 별도 확인한다. 제출 버튼 클릭과 접수 확인은 본인이 수행한다.
-
-## 데이터 출처
-
-Lledó, J.; Espinosa Adamez, P.; Perez Gimenez, V. (2025), *Dataset of health insurance portfolio*, Mendeley Data, V4, [doi:10.17632/386vmj2tbk.4](https://doi.org/10.17632/386vmj2tbk.4), CC BY 4.0. 본 프로젝트는 해당 파일을 집계·연결해 분석하며 원본 파일은 수정하지 않는다.
+단일 보험사의 건강보험 자료로 국내 생명보험에 직접 일반화할 수 없다. 상태 코드는 연중·연말 종료를 구분하지만 자발적 해지와 미납 실효를 구분하지 않는다. 상담 이력이 없어 실제 이탈 방어 효과는 분석하지 않는다.
