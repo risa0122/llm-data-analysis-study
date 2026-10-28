@@ -1,0 +1,17 @@
+{
+  "repository": "GilbertMoon/llm-data-analysis-course",
+  "commit": "6105f42bd8294cb364dde6dcc2fee71c32e14794",
+  "description": "Chapter 08 공식 공통 data/raw. Chapter 05 전용 실습 Raw와 구분한다.",
+  "sha256": {
+    "data/raw/customers.csv": "3b31aaefa66505f0a1820ccd89f0eac3b5e12830b71ecb45f2b65928bcdfb143",
+    "data/raw/products.csv": "46ff06753ade3e71011ee08dd366148dcd9c36521f111840cead0a9d1047e405",
+    "data/raw/orders.csv": "8f6e7ee39aa5ee6e229199532caa84bd9d4d30ef2abc2b9412cf45b0b2fdbfae",
+    "data/raw/order_items.csv": "a7a5c3942b0886c66cb38cc6a10fdfa68dbcde90e8642585dee49c4bd104063a",
+    "src/__init__.py": "f3ee868c979c0a35f73716e5d257902c66f66281150f7423b1e79b1e3986b79d",
+    "src/data_loader.py": "8c4d1a13861cd08e5a1a3cd60a891d8211ea0e912fac48a0befc0b22e7b42828",
+    "src/eda.py": "1e4b10004d1ee4c53de6ff64416b755306e274731637a79a8bd18e113c929807",
+    "src/midterm_project.py": "d4644f708418a1e045f28a54759541743cc2c4bbf785fff3b8dd319c8492b835",
+    "src/preprocessing.py": "4695e23c80173651d9c1acc62cf6758bc827425f24d7f30b107fa6d3384afcde",
+    "src/visualization.py": "12c23530f69100b4e7ba4706b78e78ca9f37736a073ba74b0d0b801e9dc03e21"
+  }
+}
