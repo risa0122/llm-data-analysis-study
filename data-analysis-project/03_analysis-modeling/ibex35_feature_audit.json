@@ -1,0 +1,17 @@
+{
+  "checked_date": "2026-11-02",
+  "index": "IBEX 35 price index; excludes dividends",
+  "candidate_feature": "ibex35_return_pct",
+  "formula": "100 * (year_end_close / prior_year_end_close - 1)",
+  "alignment": "feature year t return, available after year-end close; outcome t+1",
+  "training_feature_years": [
+    2017
+  ],
+  "test_feature_years": [
+    2018
+  ],
+  "unique_values_in_training": 1,
+  "included_in_fitted_models": false,
+  "reason": "Constant in the single training year; effect is not identifiable. Annual context and candidate feature only.",
+  "source_transcription": "Year-end closes manually checked against BME 2017 and 2019 reports; returns computed without rounding before joining."
+}

@@ -14,6 +14,8 @@ def md(df):
     return df.to_markdown(index=False,floatfmt='.4f')
 
 def main():
+    from add_ibex_context import main as add_ibex
+    add_ibex()
     result=json.loads((MODEL/'analysis_results.json').read_text())
     metrics=pd.read_csv(MODEL/'metrics.csv')
     groups=pd.read_csv(EDA/'grouped_lapse.csv')
@@ -38,6 +40,8 @@ def main():
     text=f'''# 데이터 확보·전처리·EDA
 
 분석일: 2026년 11월 2일. 공개 건강보험 원본 V4를 다시 읽어 실행했다. 이번 결과는 10월 기획 이후 처음 수행한 예비 EDA다.
+
+IBEX 35 연간 가격수익률을 경제 상황 후보 변수로 연결했다. [확보 결과·연도 연결·모델 적용 한계](../docs/ibex35_context.md). 스페인 주식시장 지표이며 글로벌 경제 전체를 대변하지 않는다.
 
 ## 1. 1차 이후 변경된 내용
 
@@ -106,6 +110,8 @@ def main():
     model_text=f'''# 본 분석·모델링·검증 — 예비 결과
 
 실행일: 2026년 11월 2일. 나이·성별·지역 지표를 포함해 처음 실행한 예비 모델 결과다. 교육 자료의 시점 제약 때문에 실무 배치용 사전 예측 성능이 아닌 **사후 연구용 비교**로 해석한다.
+
+IBEX 35 수익률은 후보 변수·연도별 배경 자료로 추가했다. 학습 구간이 단일 연도여서 상수이므로 아래 모델에는 투입하지 않았으며 성능도 변경하지 않았다. [IBEX 35 검토](../docs/ibex35_context.md).
 
 ## 1. 분석 질문과 변수
 
@@ -180,6 +186,8 @@ python docs/render_revised_reports.py
 
 기존 10월 발표본은 당시 기획 기록이다. 현재 변수 구성과 실행 결과는 이 문서와 최신 슬라이드를 사용한다. 발표 자료는 GitHub에 업로드하지 않는다.
 
+추가 설명: IBEX 35 연간 가격수익률은 스페인 시장의 배경 변수로 확보했다. 현 모델에서는 단일 학습 연도의 상수여서 투입하지 않았다. 슬라이드의 18개·19개 변수 수와 모델 성능은 실제 학습 기준이며 IBEX 35를 포함한 성능이 아니다.
+
 ## 1장. 프로젝트 주제 — 25초
 생명보험 계약 유지관리 업무와 연결해 건강보험 이탈을 분석한다. 실제 자료는 스페인 건강보험이므로 국내 생명보험 결과라고 말하지 않는다.
 
@@ -230,6 +238,7 @@ C_GI와 C_II는 지역 소득의 백분위로 실제 개인 소득이 아니다.
 - [3차 — 예비 분석·모델링·검증](03_analysis-modeling/03_preliminary_results.md)
 - 4차 — 최종 프로젝트: 진행 예정
 - [변수 구성과 의미](docs/variable_specification.md)
+- [IBEX 35 경제 상황 후보 변수](docs/ibex35_context.md)
 - [변경 사항과 남은 확인](docs/change_log.md)
 - [AI 활용 및 검증](docs/ai_usage.md)
 

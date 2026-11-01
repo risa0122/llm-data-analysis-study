@@ -13,6 +13,7 @@
 - [3차 — 예비 분석·모델링·검증](03_analysis-modeling/03_preliminary_results.md)
 - 4차 — 최종 프로젝트: 진행 예정
 - [변수 구성과 의미](docs/variable_specification.md)
+- [IBEX 35 경제 상황 후보 변수](docs/ibex35_context.md)
 - [변경 사항과 남은 확인](docs/change_log.md)
 - [AI 활용 및 검증](docs/ai_usage.md)
 
