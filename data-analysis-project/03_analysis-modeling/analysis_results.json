@@ -1,0 +1,185 @@
+{
+  "analysis_date": "2026-11-02",
+  "seed": 20261102,
+  "python": "3.12.14",
+  "pandas": "3.0.5",
+  "sklearn": "1.9.1",
+  "feature_sets": {
+    "M0_contract": [
+      "seniority_insured",
+      "seniority_policy",
+      "premium",
+      "type_product",
+      "distribution_channel"
+    ],
+    "M1_personal_region": [
+      "seniority_insured",
+      "seniority_policy",
+      "premium",
+      "type_product",
+      "distribution_channel",
+      "age",
+      "gender",
+      "C_H",
+      "C_GI",
+      "C_II",
+      "C_IE_P",
+      "C_IE_S",
+      "C_IE_T",
+      "C_GE_P",
+      "C_GE_S",
+      "C_GE_T",
+      "IICIMUN",
+      "IICIPROV"
+    ],
+    "M2_plus_claims": [
+      "seniority_insured",
+      "seniority_policy",
+      "premium",
+      "type_product",
+      "distribution_channel",
+      "age",
+      "gender",
+      "C_H",
+      "C_GI",
+      "C_II",
+      "C_IE_P",
+      "C_IE_S",
+      "C_IE_T",
+      "C_GE_P",
+      "C_GE_S",
+      "C_GE_T",
+      "IICIMUN",
+      "IICIPROV",
+      "cost_claims_year"
+    ],
+    "S1_without_education": [
+      "seniority_insured",
+      "seniority_policy",
+      "premium",
+      "type_product",
+      "distribution_channel",
+      "age",
+      "gender",
+      "C_H",
+      "C_GI",
+      "C_II",
+      "IICIMUN",
+      "IICIPROV"
+    ],
+    "S2_without_education_plus_claims": [
+      "seniority_insured",
+      "seniority_policy",
+      "premium",
+      "type_product",
+      "distribution_channel",
+      "age",
+      "gender",
+      "C_H",
+      "C_GI",
+      "C_II",
+      "IICIMUN",
+      "IICIPROV",
+      "cost_claims_year"
+    ]
+  },
+  "date_audit": {
+    "inconsistent_status_dates": 0,
+    "active_rows_with_future_termination_date": 20090
+  },
+  "cohorts": [
+    {
+      "feature_year": 2017,
+      "outcome_year": 2018,
+      "n": 63486,
+      "unknown": 1,
+      "lapses": 9924,
+      "lapse_rate": 0.15631792836215858
+    },
+    {
+      "feature_year": 2018,
+      "outcome_year": 2019,
+      "n": 59831,
+      "unknown": 2,
+      "lapses": 6746,
+      "lapse_rate": 0.1127509150774682
+    }
+  ],
+  "test_unseen_policy_n": 5938,
+  "bootstrap_repeats": 200,
+  "paired_policy_bootstrap": {
+    "LogisticRegression:M0_contract→M1_personal_region": {
+      "AP_delta": -0.006998261900629771,
+      "AP_95CI": [
+        -0.012924413478418556,
+        -0.00020355365642308658
+      ],
+      "ROC_AUC_delta": 0.0010060025733331646,
+      "ROC_AUC_95CI": [
+        -0.0038675076513668524,
+        0.005686617696269822
+      ]
+    },
+    "LogisticRegression:M1_personal_region→M2_plus_claims": {
+      "AP_delta": 0.0006772831317323202,
+      "AP_95CI": [
+        0.0002309176629862124,
+        0.0011184918495074415
+      ],
+      "ROC_AUC_delta": 0.0014296067807503254,
+      "ROC_AUC_95CI": [
+        0.0008400789265352011,
+        0.002089211506929922
+      ]
+    },
+    "LogisticRegression:S1_without_education→S2_without_education_plus_claims": {
+      "AP_delta": 0.0006633214037060908,
+      "AP_95CI": [
+        0.0002784273752240815,
+        0.001165428687705359
+      ],
+      "ROC_AUC_delta": 0.0013743669881951526,
+      "ROC_AUC_95CI": [
+        0.0008140760691195348,
+        0.0019891916155062063
+      ]
+    },
+    "RandomForest:M0_contract→M1_personal_region": {
+      "AP_delta": 0.015828092292470813,
+      "AP_95CI": [
+        0.007363203092037731,
+        0.025461557008458653
+      ],
+      "ROC_AUC_delta": 0.02566804419887092,
+      "ROC_AUC_95CI": [
+        0.020294574814647873,
+        0.031918665472230004
+      ]
+    },
+    "RandomForest:M1_personal_region→M2_plus_claims": {
+      "AP_delta": 0.002912975111023286,
+      "AP_95CI": [
+        0.0008650450061635965,
+        0.00499120719447949
+      ],
+      "ROC_AUC_delta": 0.009895754229109932,
+      "ROC_AUC_95CI": [
+        0.007321347565612093,
+        0.012451403455173645
+      ]
+    },
+    "RandomForest:S1_without_education→S2_without_education_plus_claims": {
+      "AP_delta": 0.004471935564490215,
+      "AP_95CI": [
+        0.0026684328945829256,
+        0.0063106483410385
+      ],
+      "ROC_AUC_delta": 0.01081037322993983,
+      "ROC_AUC_95CI": [
+        0.008078230313159105,
+        0.01359048351970967
+      ]
+    }
+  },
+  "interpretation": "Retrospective exploratory analysis. Education context uses 2021 census information; other context availability at historical prediction time is not fully established. Not a deployment-valid prospective estimate."
+}

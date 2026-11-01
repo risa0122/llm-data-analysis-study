@@ -1,41 +1,36 @@
 # 건강보험 계약 이탈과 보험금 비용 특성 분석
 
-CSM 관리 업무의 계약 유지 문제와 연결해, 공개 건강보험 데이터로 이탈 특성과 이탈·유지 집단의 보험금 비용 비율을 비교한다. 기본 계약 정보에 기준연도 보험금 비용을 추가했을 때 이탈 예측 성능이 개선되는지 검증하는 개인 프로젝트다.
+생명보험 계약 유지관리 업무와 연결해 스페인 공개 건강보험 자료의 이탈 특성을 분석한다. 나이·성별·계약·지역 사회경제 정보를 고려하고 보험금 비용의 추가 예측 가치를 비교한다.
 
 ## 현재 프로젝트 진행 상태
 
-2026년 10월 4일 기준, 1차 기획서 작성과 원자료 확보·기초 구조 확인을 마쳤다. 전처리 기준 확정과 본 분석·모델링은 이후 단계에서 수행한다.
+2026년 11월 2일, 변수 구성을 수정하고 EDA와 예비 모델 비교를 실행했다. 지역 교육 지표가 2021년 통계를 사용하므로 이번 결과는 사후 연구용이다. 당시 실무 예측 성능이나 이탈 방어 효과로 해석하지 않는다.
 
 ## 단계별 산출물
 
 - [1차 — 데이터분석 프로젝트 기획](01_proposal/01_proposal.md)
-- 2차 — 데이터 확보·전처리·EDA: 진행 예정
-- 3차 — 본 분석·모델링·검증: 진행 예정
-- 4차 — 프로젝트 최종 완료: 진행 예정
+- [2차 — 데이터 확보·전처리·EDA](02_data-eda/02_eda_report.md)
+- [3차 — 예비 분석·모델링·검증](03_analysis-modeling/03_preliminary_results.md)
+- 4차 — 최종 프로젝트: 진행 예정
+- [변수 구성과 의미](docs/variable_specification.md)
+- [변경 사항과 남은 확인](docs/change_log.md)
+- [AI 활용 및 검증](docs/ai_usage.md)
 
 ## 데이터 출처 및 수집 방법
 
-Lledó, J.; Espinosa Adamez, P.; Perez Gimenez, V. (2025), *Dataset of health insurance portfolio*, Mendeley Data, V4, [DOI: 10.17632/386vmj2tbk.4](https://doi.org/10.17632/386vmj2tbk.4), CC BY 4.0.
-
-원자료와 변수 설명서를 공개 다운로드로 확보했다. 스페인 건강보험사의 2017~2019년 자료이며, 원본은 로컬에 보관한다.
-
-- [데이터 구조 및 품질 확인 결과](docs/data_feasibility.json)
-- [수집 파일 URL 및 체크섬](data/source_manifest.json)
-- [생성형 AI 활용 및 검증 기록](docs/ai_usage.md)
+Lledó, Espinosa Adamez, Perez Gimenez, Dataset of health insurance portfolio, Mendeley Data V4, [DOI 10.17632/386vmj2tbk.4](https://doi.org/10.17632/386vmj2tbk.4), CC BY 4.0. 2017~2019년 228,711행·42열이다. 원자료는 로컬에 보관하며 공개 산출물은 집계값·코드·문서다. [수집 파일·체크섬](data/source_manifest.json).
 
 ## 실행 및 재현 방법
 
-Python 3.12 환경을 권장한다. 저장소의 `data-analysis-project` 폴더에서 실행한다.
+Python 3.12 환경에서 이 폴더를 기준으로 실행한다.
 
 ```bash
-python3 -m venv .venv
-source .venv/bin/activate
 python -m pip install -r requirements.txt
 python docs/check_source_data.py
+python docs/run_revised_analysis.py
+python docs/render_revised_reports.py
 ```
-
-최초 실행 시 원자료 약 45.5MB와 변수 설명서를 다운로드한다. 파일 무결성·행과 열 수·결측·중복·연도 간 연결 결과는 `docs/data_feasibility.json`에 저장된다. 원본 행은 출력하지 않는다.
 
 ## 분석의 한계
 
-스페인 단일 보험사의 연간 갱신형 건강보험 자료다. 국내 생명보험사도 건강보험을 취급하지만, 국내 장기 보장성 계약에 적용하려면 보장 내용·보험기간·갱신 구조의 차이를 검토해야 한다. 상태 코드는 연중·연말 종료를 구분하지만 자발적 해지와 미납 실효를 구분하지 않는다. 상담 이력이 없어 실제 이탈 방어 효과는 분석하지 않는다. 보험료 대비 보험금 비용 비율을 전체 수익성이나 CSM으로 해석하지 않으며, 실제 CSM 변동액은 산출하지 않는다. 보험금 비용의 예측 시점 확보 가능성은 추가 확인이 필요하다.
+개인 소득·학력은 없다. 지역 지표를 개인 속성으로 단정하지 않는다. 상태는 연중·연말 종료를 구분하며 해지·실효 사유를 구분하지 않는다. 보험금 비용·지역 지표의 시점, 외부 검증, 지역·집단별 오류 검토가 남아 있다. CSM 평가자료와 개입 이력이 없어 실제 CSM·방어 효과는 산출하지 않는다. 발표 준비와 개인 백업은 공개하지 않는다.
