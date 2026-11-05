@@ -10,3 +10,8 @@
 | RandomForest       | M2_plus_claims                   | 59831 |       0.1128 | 0.2018 |    0.6758 |
 | RandomForest       | S1_without_education             | 59831 |       0.1128 | 0.1985 |    0.6698 |
 | RandomForest       | S2_without_education_plus_claims | 59831 |       0.1128 | 0.2029 |    0.6806 |
+| XGBoost            | M0_contract                      | 59831 |       0.1128 | 0.1842 |    0.6422 |
+| XGBoost            | M1_personal_region               | 59831 |       0.1128 | 0.1982 |    0.6689 |
+| XGBoost            | M2_plus_claims                   | 59831 |       0.1128 | 0.2038 |    0.6799 |
+| XGBoost            | S1_without_education             | 59831 |       0.1128 | 0.1985 |    0.6701 |
+| XGBoost            | S2_without_education_plus_claims | 59831 |       0.1128 | 0.2036 |    0.6805 |

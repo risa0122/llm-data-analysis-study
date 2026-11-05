@@ -5,3 +5,4 @@ scikit-learn>=1.5,<2
 numpy>=1.26,<3
 tabulate>=0.9,<1
 matplotlib>=3.8,<4
+xgboost==3.1.3

@@ -1,9 +1,54 @@
 {
-  "analysis_date": "2026-11-02",
+  "analysis_date": "2026-11-06",
   "seed": 20261102,
   "python": "3.12.14",
   "pandas": "3.0.5",
   "sklearn": "1.9.1",
+  "xgboost": "3.1.3",
+  "comparison_audit": {
+    "development_train_n": 48136,
+    "development_validation_n": 15350,
+    "final_train_n": 63486,
+    "evaluation_n": 59831,
+    "development_policy_overlap": 0,
+    "train_rows_sha256": "45c4becc59769738c537300f25456ce4948cbdd8d1888861d033e7aa17f0a97d",
+    "validation_rows_sha256": "67141a1b4a8ecbe20e03a5771b0b5fb12273447df66b4845abe74e5e20a0c0f9",
+    "evaluation_rows_sha256": "33e2f73d3ff3c32bf28a816868509ef45bcbc98c4636a5803de3b69b727015d3",
+    "same_split_for_all_models": true,
+    "same_preprocessing_for_all_models": true,
+    "tuning": "No hyperparameter search or early stopping; one fixed configuration per algorithm.",
+    "previous_test_results_seen": true,
+    "parameters": {
+      "LogisticRegression": {
+        "max_iter": 2000,
+        "C": 1.0,
+        "random_state": 20261102
+      },
+      "RandomForest": {
+        "n_estimators": 100,
+        "max_depth": 12,
+        "min_samples_leaf": 30,
+        "max_features": "sqrt",
+        "n_jobs": 4,
+        "random_state": 20261102
+      },
+      "XGBoost": {
+        "n_estimators": 200,
+        "max_depth": 3,
+        "learning_rate": 0.05,
+        "min_child_weight": 1,
+        "subsample": 1.0,
+        "colsample_bytree": 1.0,
+        "reg_lambda": 1.0,
+        "reg_alpha": 0.0,
+        "objective": "binary:logistic",
+        "eval_metric": "logloss",
+        "tree_method": "hist",
+        "n_jobs": 4,
+        "random_state": 20261102
+      }
+    }
+  },
   "feature_sets": {
     "M0_contract": [
       "seniority_insured",
@@ -123,61 +168,205 @@
     "LogisticRegression:M1_personal_region→M2_plus_claims": {
       "AP_delta": 0.0006772831317323202,
       "AP_95CI": [
-        0.0002309176629862124,
-        0.0011184918495074415
+        0.000256127164074664,
+        0.001176552672549894
       ],
       "ROC_AUC_delta": 0.0014296067807503254,
       "ROC_AUC_95CI": [
-        0.0008400789265352011,
-        0.002089211506929922
+        0.000840417929495893,
+        0.0020806926583337272
       ]
     },
     "LogisticRegression:S1_without_education→S2_without_education_plus_claims": {
       "AP_delta": 0.0006633214037060908,
       "AP_95CI": [
-        0.0002784273752240815,
-        0.001165428687705359
+        0.00024665258424450004,
+        0.0010900081470697706
       ],
       "ROC_AUC_delta": 0.0013743669881951526,
       "ROC_AUC_95CI": [
-        0.0008140760691195348,
-        0.0019891916155062063
+        0.0007498095937064742,
+        0.002004632054191738
       ]
     },
     "RandomForest:M0_contract→M1_personal_region": {
       "AP_delta": 0.015828092292470813,
       "AP_95CI": [
-        0.007363203092037731,
-        0.025461557008458653
+        0.008702937330303842,
+        0.025599912318669423
       ],
       "ROC_AUC_delta": 0.02566804419887092,
       "ROC_AUC_95CI": [
-        0.020294574814647873,
-        0.031918665472230004
+        0.019889590143397952,
+        0.03229788138265497
       ]
     },
     "RandomForest:M1_personal_region→M2_plus_claims": {
       "AP_delta": 0.002912975111023286,
       "AP_95CI": [
-        0.0008650450061635965,
-        0.00499120719447949
+        0.000691916011747347,
+        0.005961444700215675
       ],
       "ROC_AUC_delta": 0.009895754229109932,
       "ROC_AUC_95CI": [
-        0.007321347565612093,
-        0.012451403455173645
+        0.006924157566014891,
+        0.012852825337537593
       ]
     },
     "RandomForest:S1_without_education→S2_without_education_plus_claims": {
       "AP_delta": 0.004471935564490215,
       "AP_95CI": [
-        0.0026684328945829256,
-        0.0063106483410385
+        0.002542427528756972,
+        0.006491028632699879
       ],
       "ROC_AUC_delta": 0.01081037322993983,
       "ROC_AUC_95CI": [
-        0.008078230313159105,
-        0.01359048351970967
+        0.008268097871967445,
+        0.013662843636394249
+      ]
+    },
+    "XGBoost:M0_contract→M1_personal_region": {
+      "AP_delta": 0.014066226317523522,
+      "AP_95CI": [
+        0.00716469437676292,
+        0.02243978488646129
+      ],
+      "ROC_AUC_delta": 0.026716617323084058,
+      "ROC_AUC_95CI": [
+        0.019596579503135706,
+        0.03381005979327423
+      ]
+    },
+    "XGBoost:M1_personal_region→M2_plus_claims": {
+      "AP_delta": 0.005564150168361426,
+      "AP_95CI": [
+        0.0034208235966318875,
+        0.007546333312833316
+      ],
+      "ROC_AUC_delta": 0.010985214070671434,
+      "ROC_AUC_95CI": [
+        0.008756010091425839,
+        0.013294305158002385
+      ]
+    },
+    "XGBoost:S1_without_education→S2_without_education_plus_claims": {
+      "AP_delta": 0.005140246096509787,
+      "AP_95CI": [
+        0.003571198124735798,
+        0.006853714828173729
+      ],
+      "ROC_AUC_delta": 0.010442825599999761,
+      "ROC_AUC_95CI": [
+        0.008289805932954383,
+        0.012709197175154393
+      ]
+    },
+    "M0_contract:LogisticRegression→RandomForest": {
+      "AP_delta": 0.005661186349437353,
+      "AP_95CI": [
+        -0.001660649335979514,
+        0.012192266179626538
+      ],
+      "ROC_AUC_delta": 0.008337141505767698,
+      "ROC_AUC_95CI": [
+        0.0015624153243185503,
+        0.013274408302408119
+      ]
+    },
+    "M0_contract:LogisticRegression→XGBoost": {
+      "AP_delta": 0.0067522284222162055,
+      "AP_95CI": [
+        0.00030175278777241503,
+        0.013051751259319969
+      ],
+      "ROC_AUC_delta": 0.010303870239711022,
+      "ROC_AUC_95CI": [
+        0.0044145634424932745,
+        0.014810536004086423
+      ]
+    },
+    "M0_contract:RandomForest→XGBoost": {
+      "AP_delta": 0.0010910420727788528,
+      "AP_95CI": [
+        -0.0020605495128712217,
+        0.0045929310231924226
+      ],
+      "ROC_AUC_delta": 0.0019667287339433237,
+      "ROC_AUC_95CI": [
+        -0.0015204544008218272,
+        0.005947817184478047
+      ]
+    },
+    "M1_personal_region:LogisticRegression→RandomForest": {
+      "AP_delta": 0.028487540542537937,
+      "AP_95CI": [
+        0.020701772981977878,
+        0.03718511502605802
+      ],
+      "ROC_AUC_delta": 0.032999183131305454,
+      "ROC_AUC_95CI": [
+        0.02590108609951384,
+        0.039272195378007774
+      ]
+    },
+    "M1_personal_region:LogisticRegression→XGBoost": {
+      "AP_delta": 0.0278167166403695,
+      "AP_95CI": [
+        0.021042319755715192,
+        0.035510900845848146
+      ],
+      "ROC_AUC_delta": 0.036014484989461915,
+      "ROC_AUC_95CI": [
+        0.027123564162940605,
+        0.044018145769651844
+      ]
+    },
+    "M1_personal_region:RandomForest→XGBoost": {
+      "AP_delta": -0.0006708239021684381,
+      "AP_95CI": [
+        -0.0058706222296152485,
+        0.004678892533014382
+      ],
+      "ROC_AUC_delta": 0.0030153018581564606,
+      "ROC_AUC_95CI": [
+        -0.001381932787711554,
+        0.007298065985618019
+      ]
+    },
+    "M2_plus_claims:LogisticRegression→RandomForest": {
+      "AP_delta": 0.030723232521828903,
+      "AP_95CI": [
+        0.02244896655423204,
+        0.041968861779259375
+      ],
+      "ROC_AUC_delta": 0.04146533057966506,
+      "ROC_AUC_95CI": [
+        0.034668452702184265,
+        0.04785035630440825
+      ]
+    },
+    "M2_plus_claims:LogisticRegression→XGBoost": {
+      "AP_delta": 0.032703583676998604,
+      "AP_95CI": [
+        0.025713667435644384,
+        0.04074435277940287
+      ],
+      "ROC_AUC_delta": 0.04557009227938302,
+      "ROC_AUC_95CI": [
+        0.03770884504219723,
+        0.05315137545214461
+      ]
+    },
+    "M2_plus_claims:RandomForest→XGBoost": {
+      "AP_delta": 0.0019803511551697017,
+      "AP_95CI": [
+        -0.0045041280273057606,
+        0.007386766538494072
+      ],
+      "ROC_AUC_delta": 0.0041047616997179626,
+      "ROC_AUC_95CI": [
+        0.0004126349848992629,
+        0.008004657676188288
       ]
     }
   },

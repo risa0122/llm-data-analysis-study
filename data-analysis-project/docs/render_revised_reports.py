@@ -39,7 +39,7 @@ def main():
                  "연령·상품·계약 기간 등의 구성 차이를 통제하지 않은 비교다.")
     text=f'''# 데이터 확보·전처리·EDA
 
-분석일: 2026년 11월 2일. 공개 건강보험 원본 V4를 다시 읽어 실행했다. 이번 결과는 10월 기획 이후 처음 수행한 예비 EDA다.
+최초 분석일: 2026년 11월 2일. 11월 6일 비교 실험에서 동일한 공개 건강보험 원본 V4로 재실행했다. 아래 EDA의 분석 범위와 결과는 유지했다.
 
 IBEX 35 연간 가격수익률을 경제 상황 후보 변수로 연결했다. [확보 결과·연도 연결·모델 적용 한계](../docs/ibex35_context.md). 스페인 주식시장 지표이며 글로벌 경제 전체를 대변하지 않는다.
 
@@ -109,9 +109,9 @@ IBEX 35 연간 가격수익률을 경제 상황 후보 변수로 연결했다. [
     ci=pd.DataFrame(ci_rows)
     model_text=f'''# 본 분석·모델링·검증 — 예비 결과
 
-실행일: 2026년 11월 2일. 나이·성별·지역 지표를 포함해 처음 실행한 예비 모델 결과다. 교육 자료의 시점 제약 때문에 실무 배치용 사전 예측 성능이 아닌 **사후 연구용 비교**로 해석한다.
+실행일: 2026년 11월 6일. 기존 분석에 XGBoost를 추가하고 알고리즘과 변수 구성의 두 축으로 다시 비교했다. 교육 자료의 시점 제약 때문에 실무 배치용 사전 예측 성능이 아닌 **사후 연구용 비교**로 해석한다.
 
-IBEX 35 수익률은 후보 변수·연도별 배경 자료로 추가했다. 학습 구간이 단일 연도여서 상수이므로 아래 모델에는 투입하지 않았으며 성능도 변경하지 않았다. [IBEX 35 검토](../docs/ibex35_context.md).
+IBEX 35 수익률은 후보 변수·연도별 배경 자료다. 학습 구간이 단일 연도여서 상수이므로 아래 모델에는 투입하지 않았다. 이번 변경은 XGBoost 비교 추가이며 IBEX 35 투입 효과를 측정한 결과가 아니다. [IBEX 35 검토](../docs/ibex35_context.md).
 
 ## 1. 분석 질문과 변수
 
@@ -126,9 +126,9 @@ IBEX 35 수익률은 후보 변수·연도별 배경 자료로 추가했다. 학
 
 ## 2. 분석 방법과 검증 설계
 
-2017년 정보→2018년 이탈로 개발하고 2018년 정보→2019년 이탈로 평가했다. 개발 내부는 계약 단위 75:25 분할이며 같은 계약이 양쪽에 겹치지 않음을 검증했다. 설정은 사전에 고정하고 평가 결과를 보고 튜닝하지 않았다.
+2017년 정보→2018년 이탈로 개발하고 2018년 정보→2019년 이탈로 평가했다. 개발 내부는 계약 단위 75:25 분할이며 같은 계약이 양쪽에 겹치지 않음을 검증했다. 이번 재실행 전에 알고리즘별 설정을 고정했다. 세 알고리즘 모두 탐색 후보 1개, 추가 튜닝 0회이며 early stopping도 사용하지 않았다. 향후 튜닝은 개발 구간에서만 사전 고정한 예산과 AP 기준으로 수행한다. 기존 LR·RF 평가 결과는 이미 확인했으므로 완전히 미관측인 최종 시험이라고 주장하지 않는다.
 
-로지스틱 회귀는 C=1, 최대 2,000회 반복, 수치 표준화와 범주 원핫 인코딩을 사용했다. 랜덤 포레스트는 트리 100개, 최대 깊이 12, 잎 최소 30개, max_features=sqrt다. 결측 대체·표준화·인코딩은 각 학습 구간에만 적합했다. 시드 {result['seed']}를 사용했다.
+로지스틱 회귀는 C=1, 최대 2,000회 반복, 수치 표준화와 범주 원핫 인코딩을 사용했다. 랜덤 포레스트는 트리 100개, 최대 깊이 12, 잎 최소 30개, max_features=sqrt다. XGBoost는 트리 200개, 최대 깊이 3, 학습률 0.05, min_child_weight=1, subsample=colsample_bytree=1, L2=1, L1=0, hist 방식을 사용했다. 같은 알고리즘의 설정은 M0·M1·M2·S1·S2에 동일하게 적용했다. 결측 대체·표준화·인코딩은 세 알고리즘에 동일한 방식으로 각 학습 구간에만 적합했다. 시드 {result['seed']}를 사용했다.
 
 AP와 ROC-AUC를 함께 보고한다. AP의 기준이 되는 평가연도 이탈 비율은 {cohorts.iloc[1].lapse_rate:.2%}다. M0/M1/M2와 S1/S2는 같은 대상에서 비교했다. 같은 계약을 함께 재표집한 paired bootstrap 200회로 성능 차이의 탐색적 95% 구간을 계산했다. 이 구간은 고정된 예측의 평가 표본 변동만 반영하며 재학습 변동은 포함하지 않는다.
 
@@ -147,7 +147,7 @@ AP와 ROC-AUC를 함께 보고한다. AP의 기준이 되는 평가연도 이탈
 ## 4. 결과 관찰
 
 '''
-    for algo in ['LogisticRegression','RandomForest']:
+    for algo in ['LogisticRegression','RandomForest','XGBoost']:
         v=main_metrics.loc[main_metrics.algorithm.eq(algo)].set_index('features')
         model_text+=f"- {algo}: M0→M1 AP {v.loc['M0_contract','AP']:.4f}→{v.loc['M1_personal_region','AP']:.4f}, M1→M2 AP {v.loc['M1_personal_region','AP']:.4f}→{v.loc['M2_plus_claims','AP']:.4f}. ROC-AUC는 각각 {v.loc['M0_contract','ROC_AUC']:.4f}→{v.loc['M1_personal_region','ROC_AUC']:.4f}→{v.loc['M2_plus_claims','ROC_AUC']:.4f}다.\n"
     model_text+='''
@@ -178,11 +178,13 @@ python docs/run_revised_analysis.py
 python docs/render_revised_reports.py
 ```
 
-버전·시드·변수·검증 결과는 analysis_results.json, 전체 성능은 metrics.csv에 기록했다. 개인별 예측이나 원자료 행은 공개 산출물에 저장하지 않았다. 모델 학습과 평가에 최종 연도 결과를 사용했으므로 이후 변경 사항은 이 평가 결과를 이미 확인했다는 점을 기록해야 한다.
+버전·시드·변수·검증 결과는 analysis_results.json, 전체 성능은 metrics.csv에 기록했다. 개인별 예측이나 원자료 행은 공개 산출물에 저장하지 않았다. macOS에서 XGBoost 로딩에 libomp 오류가 나면 `brew install libomp`로 OpenMP 런타임을 설치한다. XGBoost 설정 정의는 [공식 Python API](https://xgboost.readthedocs.io/en/release_3.1.0/python/python_api.html)를 따른다. 모델 학습과 평가에 최종 연도 결과를 사용했으므로 이후 변경 사항은 이 평가 결과를 이미 확인했다는 점을 기록해야 한다.
 '''
+    from render_comparison import enrich_report
+    model_text = enrich_report(model_text, metrics, result, ROOT)
     (MODEL/'03_preliminary_results.md').write_text(model_text)
     notes=ROOT/'.local-presentation/presentation_notes.md'
-    notes.write_text('''# 발표 준비 — 2026년 11월 2일 수정본
+    notes.write_text('''# 발표 준비 — 2026년 11월 6일 수정본
 
 기존 10월 발표본은 당시 기획 기록이다. 현재 변수 구성과 실행 결과는 이 문서와 최신 슬라이드를 사용한다. 발표 자료는 GitHub에 업로드하지 않는다.
 
@@ -229,7 +231,7 @@ C_GI와 C_II는 지역 소득의 백분위로 실제 개인 소득이 아니다.
 
 ## 현재 프로젝트 진행 상태
 
-2026년 11월 2일, 변수 구성을 수정하고 EDA와 예비 모델 비교를 실행했다. 지역 교육 지표가 2021년 통계를 사용하므로 이번 결과는 사후 연구용이다. 당시 실무 예측 성능이나 이탈 방어 효과로 해석하지 않는다.
+2026년 11월 6일, 로지스틱 회귀·랜덤 포레스트·XGBoost와 M0·M1·M2의 두 축 비교를 실행했다. 지역 교육 지표가 2021년 통계를 사용하므로 이번 결과는 사후 연구용이다. 당시 실무 예측 성능이나 이탈 방어 효과로 해석하지 않는다.
 
 ## 단계별 산출물
 
@@ -238,6 +240,7 @@ C_GI와 C_II는 지역 소득의 백분위로 실제 개인 소득이 아니다.
 - [3차 — 예비 분석·모델링·검증](03_analysis-modeling/03_preliminary_results.md)
 - 4차 — 최종 프로젝트: 진행 예정
 - [변수 구성과 의미](docs/variable_specification.md)
+- [알고리즘 × 변수 구성 비교](03_analysis-modeling/algorithm_feature_comparison.md)
 - [IBEX 35 경제 상황 후보 변수](docs/ibex35_context.md)
 - [변경 사항과 남은 확인](docs/change_log.md)
 - [AI 활용 및 검증](docs/ai_usage.md)
@@ -262,9 +265,11 @@ python docs/render_revised_reports.py
 개인 소득·학력은 없다. 지역 지표를 개인 속성으로 단정하지 않는다. 상태는 연중·연말 종료를 구분하며 해지·실효 사유를 구분하지 않는다. 보험금 비용·지역 지표의 시점, 외부 검증, 지역·집단별 오류 검토가 남아 있다. CSM 평가자료와 개입 이력이 없어 실제 CSM·방어 효과는 산출하지 않는다. 발표 준비와 개인 백업은 공개하지 않는다.
 '''
     (ROOT/'README.md').write_text(readme)
-    backup=ROOT.parent/'개인백업/프로젝트1_이식_20261102'
+    backup=ROOT.parent/'개인백업/프로젝트1_이식_20261106'
     backup.mkdir(exist_ok=True)
-    (backup/'프로젝트1_다른LLM에전달.md').write_text('# 프로젝트 인수인계 — 2026년 11월 2일\n\n이전 20261014 버전 대신 사용한다. 실제 변수는 아래 보고서와 코드에 명시한다. 개인·지역 변수 제외 계획은 폐기했다. 교육 지표 시점 제약을 삭제하지 않는다. 발표 자료는 GitHub에 올리지 않는다.\n\n'+readme+'\n\n'+(ROOT/'docs/variable_specification.md').read_text()+'\n\n'+model_text)
+    (backup/'프로젝트1_다른LLM에전달.md').write_text('# 프로젝트 인수인계 — 2026년 11월 6일\n\n최신 알고리즘·변수 비교 결과를 사용한다. 실제 변수는 아래 보고서와 코드에 명시한다. 개인·지역 변수 제외 계획은 폐기했다. 교육 지표 시점 제약을 삭제하지 않는다. 발표 자료는 GitHub에 올리지 않는다.\n\n'+readme+'\n\n'+(ROOT/'docs/variable_specification.md').read_text()+'\n\n'+model_text)
+    from render_comparison import write_local_notes
+    write_local_notes(ROOT)
     print('Reports, figures, local notes and handover updated.')
 
 if __name__=='__main__':

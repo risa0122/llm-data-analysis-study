@@ -4,7 +4,7 @@
 
 ## 현재 프로젝트 진행 상태
 
-2026년 11월 2일, 변수 구성을 수정하고 EDA와 예비 모델 비교를 실행했다. 지역 교육 지표가 2021년 통계를 사용하므로 이번 결과는 사후 연구용이다. 당시 실무 예측 성능이나 이탈 방어 효과로 해석하지 않는다.
+2026년 11월 6일, 로지스틱 회귀·랜덤 포레스트·XGBoost와 M0·M1·M2의 두 축 비교를 실행했다. 지역 교육 지표가 2021년 통계를 사용하므로 이번 결과는 사후 연구용이다. 당시 실무 예측 성능이나 이탈 방어 효과로 해석하지 않는다.
 
 ## 단계별 산출물
 
@@ -13,6 +13,7 @@
 - [3차 — 예비 분석·모델링·검증](03_analysis-modeling/03_preliminary_results.md)
 - 4차 — 최종 프로젝트: 진행 예정
 - [변수 구성과 의미](docs/variable_specification.md)
+- [알고리즘 × 변수 구성 비교](03_analysis-modeling/algorithm_feature_comparison.md)
 - [IBEX 35 경제 상황 후보 변수](docs/ibex35_context.md)
 - [변경 사항과 남은 확인](docs/change_log.md)
 - [AI 활용 및 검증](docs/ai_usage.md)

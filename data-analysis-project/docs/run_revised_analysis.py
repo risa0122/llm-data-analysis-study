@@ -6,6 +6,8 @@ import platform
 import numpy as np
 import pandas as pd
 import sklearn
+import xgboost
+from xgboost import XGBClassifier
 from sklearn.compose import ColumnTransformer
 from sklearn.impute import SimpleImputer
 from sklearn.pipeline import make_pipeline
@@ -21,6 +23,17 @@ MODEL = ROOT / '03_analysis-modeling'
 for path in [EDA, MODEL]:
     path.mkdir(exist_ok=True)
 SEED = 20261102
+ALGORITHMS = ['LogisticRegression', 'RandomForest', 'XGBoost']
+PARAMETERS = {
+    'LogisticRegression': dict(max_iter=2000, C=1.0, random_state=SEED),
+    'RandomForest': dict(n_estimators=100, max_depth=12, min_samples_leaf=30,
+                         max_features='sqrt', n_jobs=4, random_state=SEED),
+    'XGBoost': dict(n_estimators=200, max_depth=3, learning_rate=0.05,
+                    min_child_weight=1, subsample=1.0, colsample_bytree=1.0,
+                    reg_lambda=1.0, reg_alpha=0.0, objective='binary:logistic',
+                    eval_metric='logloss', tree_method='hist', n_jobs=4,
+                    random_state=SEED)
+}
 CONTRACT = ['seniority_insured', 'seniority_policy', 'premium', 'type_product', 'distribution_channel']
 PERSONAL = ['age', 'gender']
 EDUCATION = ['C_IE_P', 'C_IE_S', 'C_IE_T', 'C_GE_P', 'C_GE_S', 'C_GE_T']
@@ -45,9 +58,9 @@ def build_model(cols, algorithm):
     prep = ColumnTransformer([
         ('numeric', make_pipeline(SimpleImputer(strategy='median', add_indicator=True), StandardScaler()), nums),
         ('categorical', make_pipeline(SimpleImputer(strategy='constant', fill_value='Unknown'), OneHotEncoder(handle_unknown='ignore', sparse_output=False)), cats)])
-    estimator = (LogisticRegression(max_iter=2000, C=1.0, random_state=SEED)
-                 if algorithm == 'LogisticRegression' else
-                 RandomForestClassifier(n_estimators=100, max_depth=12, min_samples_leaf=30, max_features='sqrt', n_jobs=4, random_state=SEED))
+    estimator = {'LogisticRegression': LogisticRegression,
+                 'RandomForest': RandomForestClassifier,
+                 'XGBoost': XGBClassifier}[algorithm](**PARAMETERS[algorithm])
     return make_pipeline(prep, estimator)
 
 def main():
@@ -131,7 +144,7 @@ def main():
     assert not set(train.iloc[train_i].ID_policy) & set(train.iloc[valid_i].ID_policy)
     unseen = ~test.ID_policy.isin(train.ID_policy)
     results, predictions = [], {}
-    for algo in ['LogisticRegression','RandomForest']:
+    for algo in ALGORITHMS:
         for name,cols in SETS.items():
             print('FIT',algo,name,flush=True)
             pipe=build_model(cols,algo)
@@ -146,20 +159,41 @@ def main():
                 results.append({'algorithm':algo,'features':name,'evaluation':'2018_to_2019_unseen_policy',**score(test.loc[unseen,'target'],p[unseen])})
     metrics=pd.DataFrame(results)
     metrics.to_csv(MODEL/'metrics.csv',index=False)
+    # 개인별 식별자를 공개하지 않고 동일 분할·평가 행 사용 여부를 기록한다.
+    def fingerprint(values):
+        return hashlib.sha256(pd.util.hash_pandas_object(values, index=False).values.tobytes()).hexdigest()
+    audit = {'development_train_n':len(train_i), 'development_validation_n':len(valid_i),
+             'final_train_n':len(train), 'evaluation_n':len(test),
+             'development_policy_overlap':0,
+             'train_rows_sha256':fingerprint(train.iloc[train_i][['ID','target']]),
+             'validation_rows_sha256':fingerprint(train.iloc[valid_i][['ID','target']]),
+             'evaluation_rows_sha256':fingerprint(test[['ID','target']]),
+             'same_split_for_all_models':True, 'same_preprocessing_for_all_models':True,
+             'tuning':'No hyperparameter search or early stopping; one fixed configuration per algorithm.',
+             'previous_test_results_seen':True, 'parameters':PARAMETERS}
+    (MODEL/'comparison_audit.json').write_text(json.dumps(audit,ensure_ascii=False,indent=2)+'\n')
     # 같은 계약의 구성원을 함께 재표집하고 모델 간 동일 가중치를 사용한다.
     codes,policies=pd.factorize(test.ID_policy)
-    rng=np.random.default_rng(SEED)
     deltas={}
     comparisons=[('M0_contract','M1_personal_region'),('M1_personal_region','M2_plus_claims'),('S1_without_education','S2_without_education_plus_claims')]
-    for algo in ['LogisticRegression','RandomForest']:
+    pairs=[]
+    for algo in ALGORITHMS:
         for a,b in comparisons:
+            pairs.append(((algo,a),(algo,b)))
+    for name in ['M0_contract','M1_personal_region','M2_plus_claims']:
+        for a,b in [('LogisticRegression','RandomForest'),('LogisticRegression','XGBoost'),('RandomForest','XGBoost')]:
+            pairs.append(((a,name),(b,name)))
+    for a,b in pairs:
+            print('BOOTSTRAP',a,b,flush=True)
+            rng=np.random.default_rng(SEED)
             samples=[]
             for _ in range(200):
                 weights=np.bincount(rng.integers(0,len(policies),len(policies)),minlength=len(policies))[codes]
-                samples.append([average_precision_score(test.target,predictions[(algo,b)],sample_weight=weights)-average_precision_score(test.target,predictions[(algo,a)],sample_weight=weights),roc_auc_score(test.target,predictions[(algo,b)],sample_weight=weights)-roc_auc_score(test.target,predictions[(algo,a)],sample_weight=weights)])
+                samples.append([average_precision_score(test.target,predictions[b],sample_weight=weights)-average_precision_score(test.target,predictions[a],sample_weight=weights),roc_auc_score(test.target,predictions[b],sample_weight=weights)-roc_auc_score(test.target,predictions[a],sample_weight=weights)])
             ci=np.quantile(samples,[.025,.975],axis=0)
-            deltas[f'{algo}:{a}→{b}']={'AP_delta':score(test.target,predictions[(algo,b)])['AP']-score(test.target,predictions[(algo,a)])['AP'],'AP_95CI':ci[:,0].tolist(),'ROC_AUC_delta':score(test.target,predictions[(algo,b)])['ROC_AUC']-score(test.target,predictions[(algo,a)])['ROC_AUC'],'ROC_AUC_95CI':ci[:,1].tolist()}
-    report={'analysis_date':'2026-11-02','seed':SEED,'python':platform.python_version(),'pandas':pd.__version__,'sklearn':sklearn.__version__,
+            key = f'{a[0]}:{a[1]}→{b[1]}' if a[0] == b[0] else f'{a[1]}:{a[0]}→{b[0]}'
+            deltas[key]={'AP_delta':score(test.target,predictions[b])['AP']-score(test.target,predictions[a])['AP'],'AP_95CI':ci[:,0].tolist(),'ROC_AUC_delta':score(test.target,predictions[b])['ROC_AUC']-score(test.target,predictions[a])['ROC_AUC'],'ROC_AUC_95CI':ci[:,1].tolist()}
+    report={'analysis_date':'2026-11-06','seed':SEED,'python':platform.python_version(),'pandas':pd.__version__,'sklearn':sklearn.__version__,'xgboost':xgboost.__version__, 'comparison_audit':audit,
             'feature_sets':SETS,'date_audit':date_audit,'cohorts':counts,'test_unseen_policy_n':int(unseen.sum()),'bootstrap_repeats':200,'paired_policy_bootstrap':deltas,
             'interpretation':'Retrospective exploratory analysis. Education context uses 2021 census information; other context availability at historical prediction time is not fully established. Not a deployment-valid prospective estimate.'}
     (MODEL/'analysis_results.json').write_text(json.dumps(report,ensure_ascii=False,indent=2)+'\n')

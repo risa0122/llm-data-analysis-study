@@ -1,0 +1,125 @@
+{
+  "revision_date": "2026-11-06",
+  "status": "Fixed before revised run; historical LR/RF evaluation already viewed",
+  "algorithms": [
+    "LogisticRegression",
+    "RandomForest",
+    "XGBoost"
+  ],
+  "parameters": {
+    "LogisticRegression": {
+      "max_iter": 2000,
+      "C": 1.0,
+      "random_state": 20261102
+    },
+    "RandomForest": {
+      "n_estimators": 100,
+      "max_depth": 12,
+      "min_samples_leaf": 30,
+      "max_features": "sqrt",
+      "n_jobs": 4,
+      "random_state": 20261102
+    },
+    "XGBoost": {
+      "n_estimators": 200,
+      "max_depth": 3,
+      "learning_rate": 0.05,
+      "min_child_weight": 1,
+      "subsample": 1.0,
+      "colsample_bytree": 1.0,
+      "reg_lambda": 1.0,
+      "reg_alpha": 0.0,
+      "objective": "binary:logistic",
+      "eval_metric": "logloss",
+      "tree_method": "hist",
+      "n_jobs": 4,
+      "random_state": 20261102
+    }
+  },
+  "feature_sets": {
+    "M0_contract": [
+      "seniority_insured",
+      "seniority_policy",
+      "premium",
+      "type_product",
+      "distribution_channel"
+    ],
+    "M1_personal_region": [
+      "seniority_insured",
+      "seniority_policy",
+      "premium",
+      "type_product",
+      "distribution_channel",
+      "age",
+      "gender",
+      "C_H",
+      "C_GI",
+      "C_II",
+      "C_IE_P",
+      "C_IE_S",
+      "C_IE_T",
+      "C_GE_P",
+      "C_GE_S",
+      "C_GE_T",
+      "IICIMUN",
+      "IICIPROV"
+    ],
+    "M2_plus_claims": [
+      "seniority_insured",
+      "seniority_policy",
+      "premium",
+      "type_product",
+      "distribution_channel",
+      "age",
+      "gender",
+      "C_H",
+      "C_GI",
+      "C_II",
+      "C_IE_P",
+      "C_IE_S",
+      "C_IE_T",
+      "C_GE_P",
+      "C_GE_S",
+      "C_GE_T",
+      "IICIMUN",
+      "IICIPROV",
+      "cost_claims_year"
+    ],
+    "S1_without_education": [
+      "seniority_insured",
+      "seniority_policy",
+      "premium",
+      "type_product",
+      "distribution_channel",
+      "age",
+      "gender",
+      "C_H",
+      "C_GI",
+      "C_II",
+      "IICIMUN",
+      "IICIPROV"
+    ],
+    "S2_without_education_plus_claims": [
+      "seniority_insured",
+      "seniority_policy",
+      "premium",
+      "type_product",
+      "distribution_channel",
+      "age",
+      "gender",
+      "C_H",
+      "C_GI",
+      "C_II",
+      "IICIMUN",
+      "IICIPROV",
+      "cost_claims_year"
+    ]
+  },
+  "seed": 20261102,
+  "tuning_budget_per_algorithm": 0,
+  "early_stopping": false,
+  "primary_metric": "Average Precision (AP)",
+  "secondary_metric": "ROC-AUC",
+  "selection_rule": "No selection or retuning on evaluation results. Any future tuning restricted to development group holdout with predeclared search budget.",
+  "script_sha256": "64c2d47fb5d95bfa8316c223c11e9bae03391e73979808c7c95ae20ee6249a19"
+}

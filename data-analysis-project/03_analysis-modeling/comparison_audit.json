@@ -1,0 +1,44 @@
+{
+  "development_train_n": 48136,
+  "development_validation_n": 15350,
+  "final_train_n": 63486,
+  "evaluation_n": 59831,
+  "development_policy_overlap": 0,
+  "train_rows_sha256": "45c4becc59769738c537300f25456ce4948cbdd8d1888861d033e7aa17f0a97d",
+  "validation_rows_sha256": "67141a1b4a8ecbe20e03a5771b0b5fb12273447df66b4845abe74e5e20a0c0f9",
+  "evaluation_rows_sha256": "33e2f73d3ff3c32bf28a816868509ef45bcbc98c4636a5803de3b69b727015d3",
+  "same_split_for_all_models": true,
+  "same_preprocessing_for_all_models": true,
+  "tuning": "No hyperparameter search or early stopping; one fixed configuration per algorithm.",
+  "previous_test_results_seen": true,
+  "parameters": {
+    "LogisticRegression": {
+      "max_iter": 2000,
+      "C": 1.0,
+      "random_state": 20261102
+    },
+    "RandomForest": {
+      "n_estimators": 100,
+      "max_depth": 12,
+      "min_samples_leaf": 30,
+      "max_features": "sqrt",
+      "n_jobs": 4,
+      "random_state": 20261102
+    },
+    "XGBoost": {
+      "n_estimators": 200,
+      "max_depth": 3,
+      "learning_rate": 0.05,
+      "min_child_weight": 1,
+      "subsample": 1.0,
+      "colsample_bytree": 1.0,
+      "reg_lambda": 1.0,
+      "reg_alpha": 0.0,
+      "objective": "binary:logistic",
+      "eval_metric": "logloss",
+      "tree_method": "hist",
+      "n_jobs": 4,
+      "random_state": 20261102
+    }
+  }
+}
