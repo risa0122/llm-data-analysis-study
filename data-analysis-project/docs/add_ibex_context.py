@@ -20,13 +20,13 @@ def main():
     merged.drop(columns='_merge').to_csv(ROOT/'02_data-eda/ibex35_cohort_context.csv',index=False)
     training_unique=int(merged.loc[merged.feature_year.eq(2017),'ibex35_return_pct'].nunique())
     assert training_unique==1
-    audit={'checked_date':'2026-11-02','index':'IBEX 35 price index; excludes dividends',
+    audit={'checked_date':'2026-11-06','index':'IBEX 35 price index; excludes dividends',
            'candidate_feature':'ibex35_return_pct','formula':'100 * (year_end_close / prior_year_end_close - 1)',
            'alignment':'feature year t return, available after year-end close; outcome t+1',
            'training_feature_years':[2017],'test_feature_years':[2018],
            'unique_values_in_training':training_unique,'included_in_fitted_models':False,
            'reason':'Constant in the single training year; effect is not identifiable. Annual context and candidate feature only.',
-           'source_transcription':'Year-end closes manually checked against BME 2017 and 2019 reports; returns computed without rounding before joining.'}
+           'source_transcription':'2016 close corrected to 9532.1 against BME monthly source on 2026-11-06; 2017-2019 December closes agree.'}
     (ROOT/'03_analysis-modeling/ibex35_feature_audit.json').write_text(json.dumps(audit,ensure_ascii=False,indent=2)+'\n')
     print(annual[['year','close_points','ibex35_return_pct']].to_string(index=False))
     print('코호트 연결 통과 / 학습 구간 고유값:',training_unique)

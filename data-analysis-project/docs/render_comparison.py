@@ -77,7 +77,7 @@ def enrich_report(text, metrics, result, root):
     readings.append('차이 구간은 동일 계약을 함께 재표집한 200회 paired bootstrap이다. 모든 비교에 같은 재표집 시드를 사용했다. 재학습 변동과 다중 비교 보정은 포함하지 않은 탐색적 구간이다. 알고리즘 간 세 쌍의 차이는 전체 보고서와 analysis_results.json에 모두 제시한다.')
     interpretation_text='\n\n'.join(readings)
     appendix=conditions+'\n\n'+matrix_text+'\n\n'+interpretation_text
-    (root/'03_analysis-modeling/algorithm_feature_comparison.md').write_text('# 알고리즘과 변수 구성 비교\n\n실행일: 2026년 11월 6일. 교육 변수의 2021년 통계 사용으로 사후 연구용 비교다. IBEX 35는 단일 학습 연도의 상수이므로 학습 입력에 포함하지 않았다.\n\n'+appendix+'\n\n[전체 결과·민감도·한계](03_preliminary_results.md)\n')
+    (root/'03_analysis-modeling/algorithm_feature_comparison.md').write_text('# 알고리즘과 변수 구성 비교\n\n실행일: 2026년 11월 6일. 교육 변수의 2021년 통계 사용으로 사후 연구용 비교다. 기존 연간 비교에서 IBEX 35는 상수이므로 제외했다. 실제 투입한 월별 비교는 monthly/monthly_results.md에 별도로 기록했다.\n\n'+appendix+'\n\n[전체 결과·민감도·한계](03_preliminary_results.md)\n')
     start=text.index('## 4. 결과 관찰')
     end=text.index('## 7. 한계와 추가 확인 사항')
     text=text[:start]+interpretation_text+'\n\n'+text[end:]

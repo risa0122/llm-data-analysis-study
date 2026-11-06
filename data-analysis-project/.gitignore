@@ -11,3 +11,5 @@ node_modules/
 .local-presentation/
 01_proposal/01_presentation.pptx
 01_proposal/presentation_notes.md
+
+.local-experiment/

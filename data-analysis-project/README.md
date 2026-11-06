@@ -4,7 +4,9 @@
 
 ## 현재 프로젝트 진행 상태
 
-2026년 11월 6일, 로지스틱 회귀·랜덤 포레스트·XGBoost와 M0·M1·M2의 두 축 비교를 실행했다. 지역 교육 지표가 2021년 통계를 사용하므로 이번 결과는 사후 연구용이다. 당시 실무 예측 성능이나 이탈 방어 효과로 해석하지 않는다.
+최신 분석은 [월별 이탈·IBEX 35 비교](03_analysis-modeling/monthly/monthly_results.md)다. 본 연구 데이터 확보 전 공개데이터로 분석 절차를 시험한다. 전년도 보험 정보와 전월 IBEX 수익률로 당월 이탈을 예측하며, 기존 연간 결과와 구분한다.
+
+기존 연간 분석에서는 2026년 11월 6일, 로지스틱 회귀·랜덤 포레스트·XGBoost와 M0·M1·M2의 두 축 비교를 실행했다. 지역 교육 지표가 2021년 통계를 사용하므로 이번 결과는 사후 연구용이다. 당시 실무 예측 성능이나 이탈 방어 효과로 해석하지 않는다.
 
 ## 단계별 산출물
 
@@ -14,7 +16,7 @@
 - 4차 — 최종 프로젝트: 진행 예정
 - [변수 구성과 의미](docs/variable_specification.md)
 - [알고리즘 × 변수 구성 비교](03_analysis-modeling/algorithm_feature_comparison.md)
-- [IBEX 35 경제 상황 후보 변수](docs/ibex35_context.md)
+- [IBEX 35 연간·월별 활용](docs/ibex35_context.md)
 - [변경 사항과 남은 확인](docs/change_log.md)
 - [AI 활용 및 검증](docs/ai_usage.md)
 
@@ -31,6 +33,8 @@ python -m pip install -r requirements.txt
 python docs/check_source_data.py
 python docs/run_revised_analysis.py
 python docs/render_revised_reports.py
+python docs/run_monthly_analysis.py
+python docs/render_monthly_report.py
 ```
 
 ## 분석의 한계
